@@ -1,0 +1,27 @@
+---
+import { getImageUrl } from "../backend.mjs";
+
+const { record, recordImage = "Images" } = Astro.props;
+const imageData = record[recordImage];
+const images = Array.isArray(imageData)
+  ? imageData
+  : imageData
+    ? [imageData]
+    : [];
+const firstImage = images.find(Boolean);
+const url = firstImage ? getImageUrl(record, firstImage) : null;
+---
+
+{
+  url ? (
+    <img
+      src={url}
+      alt={record.nomMaison ?? "Maison"}
+      class="w-full h-48 object-cover"
+    />
+  ) : (
+    <div class="w-full h-48 bg-gray-300 flex items-center justify-center">
+      <span class="text-gray-500 text-sm">Aucune image</span>
+    </div>
+  )
+}
