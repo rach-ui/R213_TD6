@@ -1,3 +1,36 @@
+# ImmoPlus — Agence Immobilière
+
+Projet réalisé avec **Astro** et **PocketBase**.
+
+## Pages
+
+- `/` — Accueil
+- `/offres` — Liste des offres immobilières avec filtres
+- `/offres/[id]` — Détail d'une offre
+- `/offres/add` — Ajouter une offre
+- `/offres/surface` — Offres avec surface > 50m²
+- `/offres/prix` — Offres à moins de 100 000 €
+- `/agents` — Liste des agents
+- `/agents/[id]` — Offres d'un agent
+- `/about` — À propos
+
+## Stack technique
+
+- **Astro** v5
+- **TailwindCSS** v4
+- **PocketBase** (base de données et stockage des images)
+
+## Lancer le projet
+
+```bash
+npm install
+npm run dev
+```
+
+PocketBase doit tourner sur `http://127.0.0.1:8090`.
+
+---
+
 # TD 1
 
 **Objectif**: Au cours des TDs, nous allons développer un site web pour un conservatoire tout en pratiquant Astro.

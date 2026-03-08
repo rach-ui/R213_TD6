@@ -1,0 +1,95 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PbImages from "../../components/PbImages.astro";
+import { getOffre } from "../../backend.mjs";
+
+const { id } = Astro.params;
+const offre = await getOffre(id);
+
+if (!offre) {
+  return Astro.redirect("/offres");
+}
+---
+
+<Layout titre={offre.nomMaison}>
+  <div class="max-w-3xl mx-auto">
+    <a
+      href="/offres"
+      class="inline-flex items-center text-blue-700 hover:underline mb-6"
+    >
+      ← Retour aux offres
+    </a>
+
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <PbImages record={offre} />
+      <div class="p-6">
+        <div class="flex items-start justify-between gap-4">
+          <h1 class="text-3xl font-bold text-gray-800">{offre.nomMaison}</h1>
+          <button
+            data-id={offre.id}
+            data-favori={String(offre.favori === true)}
+            class="favori-btn bg-gray-100 rounded-full p-2 hover:scale-110 transition-transform shrink-0"
+          >
+            <img
+              src={offre.favori
+                ? "/icons/favorite_filled.svg"
+                : "/icons/favorite.svg"}
+              alt="Favori"
+              class="w-8 h-8"
+            />
+          </button>
+        </div>
+
+        <p class="text-3xl font-bold text-blue-700 mt-3">{offre.Prix} €</p>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6">
+          {
+            offre.surface && (
+              <div class="bg-gray-50 p-3 rounded-md">
+                <p class="text-xs text-gray-500">Surface</p>
+                <p class="text-lg font-semibold">{offre.surface} m²</p>
+              </div>
+            )
+          }
+          <div class="bg-gray-50 p-3 rounded-md">
+            <p class="text-xs text-gray-500">Chambres</p>
+            <p class="text-lg font-semibold">{offre.nbChambres}</p>
+          </div>
+          <div class="bg-gray-50 p-3 rounded-md">
+            <p class="text-xs text-gray-500">Salles de bain</p>
+            <p class="text-lg font-semibold">{offre.nbSdb}</p>
+          </div>
+        </div>
+
+        {
+          offre.Adresse && (
+            <div class="mt-4">
+              <p class="text-sm text-gray-500">Adresse</p>
+              <p class="text-gray-800">{offre.Adresse}</p>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  import { setFavori } from "../../backend.mjs";
+
+  document.querySelectorAll(".favori-btn").forEach((btn) => {
+    btn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const id = btn.getAttribute("data-id");
+      const isFavori = btn.getAttribute("data-favori") === "true";
+      if (!id) return;
+      await setFavori(id, !isFavori);
+      btn.setAttribute("data-favori", String(!isFavori));
+      const img = btn.querySelector("img");
+      if (img)
+        img.src = !isFavori
+          ? "/icons/favorite_filled.svg"
+          : "/icons/favorite.svg";
+    });
+  });
+</script>
