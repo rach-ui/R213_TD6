@@ -1,7 +1,7 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
-import OffreCard from '../../../components/OffreCard.astro';
-import { getOffresSurface50 } from '../../../backend.mjs';
+import Layout from "../../../layouts/Layout.astro";
+import OffreCard from "../../../components/OffreCard.astro";
+import { getOffresSurface50 } from "../../../backend.mjs";
 
 const offres = await getOffresSurface50();
 ---
@@ -9,13 +9,19 @@ const offres = await getOffresSurface50();
 <Layout titre="Surface > 50m²">
   <h1 class="text-3xl font-bold text-gray-800 mb-8">Maisons de plus de 50m²</h1>
 
-  {offres.length > 0 ? (
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      {offres.map(offre => <OffreCard offre={offre} />)}
-    </div>
-  ) : (
-    <p class="text-center text-gray-500 py-16">Aucune offre disponible.</p>
-  )}
+  {
+    offres.length > 0 ? (
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {offres.map((offre) => (
+          <OffreCard offre={offre} />
+        ))}
+      </div>
+    ) : (
+      <p class="text-center text-gray-500 py-16">Aucune offre disponible.</p>
+    )
+  }
 
-  <a href="/offres" class="mt-8 inline-block text-blue-700 hover:underline">← Retour aux offres</a>
+  <a href="/offres" class="mt-8 inline-block text-blue-700 hover:underline"
+    >← Retour aux offres</a
+  >
 </Layout>

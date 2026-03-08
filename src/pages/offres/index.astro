@@ -1,20 +1,20 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import OffreCard from '../../components/OffreCard.astro';
-import { getOffres, getFavoris, filterByPrix } from '../../backend.mjs';
+import Layout from "../../layouts/Layout.astro";
+import OffreCard from "../../components/OffreCard.astro";
+import { getOffres, getFavoris, filterByPrix } from "../../backend.mjs";
 
 let offres = [];
-let filterMsg = '';
+let filterMsg = "";
 
-if (Astro.request.method === 'POST') {
+if (Astro.request.method === "POST") {
   const formData = await Astro.request.formData();
-  const minPrix = Number(formData.get('minPrix'));
-  const maxPrix = Number(formData.get('maxPrix'));
+  const minPrix = Number(formData.get("minPrix"));
+  const maxPrix = Number(formData.get("maxPrix"));
   offres = await filterByPrix(minPrix, maxPrix);
   filterMsg = `${offres.length} offre(s) trouvée(s) entre ${minPrix} € et ${maxPrix} €`;
 } else {
-  const filter = Astro.url.searchParams.get('filter');
-  if (filter === 'favoris') {
+  const filter = Astro.url.searchParams.get("filter");
+  if (filter === "favoris") {
     offres = await getFavoris();
     filterMsg = `${offres.length} offre(s) en favoris`;
   } else {
@@ -27,24 +27,41 @@ if (Astro.request.method === 'POST') {
   <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
     <h1 class="text-3xl font-bold text-gray-800">Nos Offres</h1>
     <div class="flex flex-wrap gap-3 items-center">
-      <a href="/offres?filter=favoris" class="px-4 py-2 bg-red-100 text-red-700 rounded-md font-medium hover:bg-red-200 transition-colors text-sm">
+      <a
+        href="/offres?filter=favoris"
+        class="px-4 py-2 bg-red-100 text-red-700 rounded-md font-medium hover:bg-red-200 transition-colors text-sm"
+      >
         ❤ Favoris
       </a>
-      <a href="/offres/surface" class="px-4 py-2 bg-green-100 text-green-700 rounded-md font-medium hover:bg-green-200 transition-colors text-sm">
+      <a
+        href="/offres/surface"
+        class="px-4 py-2 bg-green-100 text-green-700 rounded-md font-medium hover:bg-green-200 transition-colors text-sm"
+      >
         Surface &gt; 50m²
       </a>
-      <a href="/offres/prix" class="px-4 py-2 bg-yellow-100 text-yellow-700 rounded-md font-medium hover:bg-yellow-200 transition-colors text-sm">
+      <a
+        href="/offres/prix"
+        class="px-4 py-2 bg-yellow-100 text-yellow-700 rounded-md font-medium hover:bg-yellow-200 transition-colors text-sm"
+      >
         &lt; 100 000 €
       </a>
-      <a href="/offres/add" class="px-4 py-2 bg-blue-700 text-white rounded-md font-medium hover:bg-blue-800 transition-colors text-sm">
+      <a
+        href="/offres/add"
+        class="px-4 py-2 bg-blue-700 text-white rounded-md font-medium hover:bg-blue-800 transition-colors text-sm"
+      >
         + Ajouter une offre
       </a>
     </div>
   </div>
 
-  <form method="POST" class="flex flex-wrap gap-4 mb-8 p-4 bg-white rounded-lg shadow-sm">
+  <form
+    method="POST"
+    class="flex flex-wrap gap-4 mb-8 p-4 bg-white rounded-lg shadow-sm"
+  >
     <div class="flex flex-col gap-1">
-      <label for="minPrix" class="text-sm font-medium text-gray-700">Prix min (€)</label>
+      <label for="minPrix" class="text-sm font-medium text-gray-700"
+        >Prix min (€)</label
+      >
       <input
         id="minPrix"
         name="minPrix"
@@ -55,7 +72,9 @@ if (Astro.request.method === 'POST') {
       />
     </div>
     <div class="flex flex-col gap-1">
-      <label for="maxPrix" class="text-sm font-medium text-gray-700">Prix max (€)</label>
+      <label for="maxPrix" class="text-sm font-medium text-gray-700"
+        >Prix max (€)</label
+      >
       <input
         id="maxPrix"
         name="maxPrix"
@@ -66,7 +85,10 @@ if (Astro.request.method === 'POST') {
       />
     </div>
     <div class="flex items-end">
-      <button type="submit" class="px-4 py-2 bg-blue-700 text-white rounded-md font-medium hover:bg-blue-800 transition-colors text-sm">
+      <button
+        type="submit"
+        class="px-4 py-2 bg-blue-700 text-white rounded-md font-medium hover:bg-blue-800 transition-colors text-sm"
+      >
         Filtrer
       </button>
     </div>
@@ -74,11 +96,15 @@ if (Astro.request.method === 'POST') {
 
   {filterMsg && <p class="mb-6 text-green-700 font-medium">{filterMsg}</p>}
 
-  {offres.length > 0 ? (
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      {offres.map(offre => <OffreCard offre={offre} />)}
-    </div>
-  ) : (
-    <p class="text-center text-gray-500 py-16">Aucune offre disponible.</p>
-  )}
+  {
+    offres.length > 0 ? (
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {offres.map((offre) => (
+          <OffreCard offre={offre} />
+        ))}
+      </div>
+    ) : (
+      <p class="text-center text-gray-500 py-16">Aucune offre disponible.</p>
+    )
+  }
 </Layout>
