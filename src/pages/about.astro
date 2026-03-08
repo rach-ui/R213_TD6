@@ -1,7 +1,26 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
 ---
-<Layout title="About">
-    <h1>About This Site</h1>
-    <p>This site is built with Astro, a modern static site generator. Feel free to explore and learn more about Astro!</p>  
+
+<Layout titre="À propos">
+    <div class="max-w-3xl mx-auto py-12">
+        <h1 class="text-4xl font-bold text-blue-700 mb-6">
+            À propos d'ImmoPlus
+        </h1>
+        <p class="text-gray-600 text-lg leading-relaxed mb-4">
+            ImmoPlus est une agence immobilière moderne qui vous aide à trouver
+            la maison de vos rêves. Nous proposons un large choix de biens
+            immobiliers partout en France.
+        </p>
+        <p class="text-gray-600 text-lg leading-relaxed">
+            Notre équipe d'agents expérimentés est à votre disposition pour vous
+            accompagner dans toutes vos démarches d'achat ou de vente.
+        </p>
+        <a
+            href="/offres"
+            class="mt-8 inline-block bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors"
+        >
+            Voir nos offres
+        </a>
+    </div>
 </Layout>
