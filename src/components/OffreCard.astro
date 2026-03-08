@@ -1,0 +1,57 @@
+---
+import PbImages from "./PbImages.astro";
+
+const { offre } = Astro.props;
+---
+
+<article
+  class="offre-card bg-white rounded-lg shadow-md overflow-hidden relative hover:shadow-lg transition-shadow"
+>
+  <PbImages record={offre} />
+  <div class="p-4">
+    <h3 class="text-lg font-semibold text-gray-800">{offre.nomMaison}</h3>
+    <p class="text-blue-700 font-bold text-xl mt-1">{offre.Prix} €</p>
+    {
+      offre.surface && (
+        <p class="text-gray-600 text-sm mt-1">{offre.surface} m²</p>
+      )
+    }
+    <a
+      href={`/offres/${offre.id}`}
+      class="mt-3 block text-center bg-blue-700 text-white py-2 rounded-md hover:bg-blue-800 transition-colors text-sm font-medium"
+    >
+      Voir le détail
+    </a>
+  </div>
+  <button
+    data-id={offre.id}
+    data-favori={String(offre.favori === true)}
+    class="favori-btn absolute top-2 right-2 bg-white rounded-full p-1.5 shadow-md hover:scale-110 transition-transform"
+  >
+    <img
+      src={offre.favori ? "/icons/favorite_filled.svg" : "/icons/favorite.svg"}
+      alt="Favori"
+      class="w-6 h-6"
+    />
+  </button>
+</article>
+
+<script>
+  import { setFavori } from "../backend.mjs";
+
+  document.querySelectorAll(".favori-btn").forEach((btn) => {
+    btn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const id = btn.getAttribute("data-id");
+      const isFavori = btn.getAttribute("data-favori") === "true";
+      if (!id) return;
+      await setFavori(id, !isFavori);
+      btn.setAttribute("data-favori", String(!isFavori));
+      const img = btn.querySelector("img");
+      if (img)
+        img.src = !isFavori
+          ? "/icons/favorite_filled.svg"
+          : "/icons/favorite.svg";
+    });
+  });
+</script>
